@@ -59,7 +59,7 @@ executable xmonad-sid
     import:           warnings
 
     -- .hs or .lhs file containing the Main module.
-    main-is:          Main.hs
+    main-is:          xmonad.hs
 
     -- Modules included in this executable, other than Main.
     -- other-modules:
@@ -69,12 +69,13 @@ executable xmonad-sid
 
     -- Other library packages from which modules are imported.
     build-depends: base,
+                   containers,
                    X11 >= 1.10 && < 1.11,
                    xmonad,
                    xmonad-contrib, 
 
     -- Directories containing source files.
-    hs-source-dirs:   app
+    hs-source-dirs:   ./
 
     -- Base language which the package is written in.
     default-language: Haskell2010

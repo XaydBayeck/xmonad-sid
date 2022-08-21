@@ -119,7 +119,7 @@ trayerColor :: String
 trayerColor = "0x3b4252"
 
 trayerStartup :: MonadIO m => m () -- Don't question it
-trayerStartup = spawn $ "sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --transparent true --alpha 0 --tint " ++ trayerColor ++ " --height 24"
+trayerStartup = spawn $ "sleep 3 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --transparent true --alpha 0 --tint " ++ trayerColor ++ " --height 16"
 
 myKeymap :: XConfig Layout -> M.Map (KeyMask, KeySym) $ X ()
 myKeymap conf =

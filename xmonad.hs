@@ -103,8 +103,11 @@ myFocusedBorderColor = "#bc96da"
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
 --
+homebin :: String -> String
+homebin = ("/home/sid/bin/" ++)
+
 clipboardy :: MonadIO m => m () -- Don't question it
-clipboardy = spawn "rofi -modi \"\63053 :greenclip print\" -show \"\63053 \" -run-command '{cmd}' -theme ~/.config/rofi/launcher/style.rasi"
+clipboardy = spawn $ homebin "clipmenu"
 
 maimcopy :: MonadIO m => m () -- Don't question it
 maimcopy = spawn "maim -s | xclip -selection clipboard -t image/png && notify-send \"Screenshot\" \"Copied to Clipboard\" -i flameshot"
@@ -113,13 +116,17 @@ maimsave :: MonadIO m => m () -- Don't question it
 maimsave = spawn "maim -s ~/Pictures/desktop/$(date +%Y-%m-%d_%H-%M-%S).png && notify-send \"Screenshot\" \"Saved to Desktop\" -i flameshot"
 
 rofiLauncher :: MonadIO m => m () -- Don't question it
-rofiLauncher = spawn "rofi -no-lazy-grab -show drun -modi run,drun,window -theme $HOME/.config/rofi/launcher/style -drun-icon-theme \"candy-icons\" "
+-- rofiLauncher = spawn "rofi -no-lazy-grab -show drun -modi run,drun,window -theme $HOME/.config/rofi/launcher/style -drun-icon-theme \"candy-icons\" "
+rofiLauncher = spawn $ homebin "launcher"
+
+powerMenu :: MonadIO m => m ()
+powerMenu = spawn $ homebin "powermenu"
 
 trayerColor :: String
 trayerColor = "0x3b4252"
 
 trayerStartup :: MonadIO m => m () -- Don't question it
-trayerStartup = spawn $ "sleep 3 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --transparent true --alpha 0 --tint " ++ trayerColor ++ " --height 16"
+trayerStartup = spawn $ "sleep 3 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --transparent true --alpha 0 --tint " ++ trayerColor ++ " --height 20"
 
 myKeymap :: XConfig Layout -> M.Map (KeyMask, KeySym) $ X ()
 myKeymap conf =
@@ -127,7 +134,7 @@ myKeymap conf =
     [ -- launch a terminal
       ("M-S-<Return>", spawn $ XMonad.terminal conf),
       -- lock screen
-      ("M-F1", spawn "betterlockscreen -l"),
+      ("M-<F1>", spawn "betterlockscreen -l"),
       -- launch rofi and dashboard
       ("M-o", rofiLauncher),
       -- Audio keys
@@ -198,7 +205,7 @@ myKeymap conf =
       -- , (("M, xK_b), sendMessage ToggleStruts)
       --
       -- Quit xmonad
-      ("M-S-q", spawn "~/bin/powermenu.sh"),
+      ("M-S-q", powerMenu),
       -- Restart xmonad
       ("M-q", spawn "xmonad --recompile ; xmonad --restart"),
       -- Run xmessage with a summary of the default keybindings (useful for beginners)
@@ -337,7 +344,7 @@ myXmobarPP :: PP
 myXmobarPP =
   def
     { ppSep = magenta " • ",
-      ppTitleSanitize =  xmobarStrip,
+      ppTitleSanitize = xmobarStrip,
       ppCurrent = wrap " " "" . xmobarBorder "Top" "#8be9fd" 2,
       ppHidden = white . wrap " " "",
       ppHiddenNoWindows = lowWhite . wrap " " "",
@@ -352,7 +359,7 @@ myXmobarPP =
     -- Windows should have *some* title, which should not not exceed a
     -- sane length.
     ppWindow :: String -> String
-    ppWindow = xmobarFont 2 .xmobarRaw . (\w -> if null w then "untitled" else w) . shorten 30
+    ppWindow = xmobarFont 2 . xmobarRaw . (\w -> if null w then "untitled" else w) . shorten 30
 
     blue, lowWhite, magenta, red, white, yellow :: String -> String
     magenta = xmobarColor "#ff79c6" ""

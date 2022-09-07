@@ -298,6 +298,7 @@ myManageHook =
     <+> composeAll
       [ className =? "MPlayer" --> doFloat,
         className =? "Gimp" --> doFloat,
+        className =? "beeref" --> doFloat,
         className =? "nannou" --> doFloat,
         isDialog --> doFloat,
         resource =? "desktop_window" --> doIgnore,

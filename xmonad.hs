@@ -300,6 +300,8 @@ myManageHook =
         className =? "Gimp" --> doFloat,
         className =? "beeref" --> doFloat,
         className =? "nannou" --> doFloat,
+        className =? "makie" --> doFloat,
+        appName   =? "wemeetapp" --> doFloat,
         isDialog --> doFloat,
         resource =? "desktop_window" --> doIgnore,
         resource =? "kdesktop" --> doIgnore,
